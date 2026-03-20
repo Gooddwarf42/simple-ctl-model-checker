@@ -6,7 +6,7 @@ using Xunit;
 namespace SimpleCtlModelChecker.CSharp.Tests.Visitors;
 
 [TestSubject(typeof(StringCtlFormulaVisitor))]
-public class StringCtlFormulaVisitorTest
+public class StringCtlFormulaVisitorTest : BaseVisitorTest
 {
     [Fact]
     public void BottomWorks()
@@ -78,94 +78,24 @@ public class StringCtlFormulaVisitorTest
     [Fact]
     public void SafetyWorks()
     {
-        // Arrange
-        var formula = CtlFormula.Unary
-        (
-            UnaryOperator.AG,
-            CtlFormula.Unary(UnaryOperator.Not, CtlFormula.Atomic("ReactorGoesCritical"))
-        );
-        var visitor = new StringCtlFormulaVisitor();
-
-        // Act
-        var result = visitor.Visit(formula);
-
-        // Assert
-        Assert.Equal("AG !'ReactorGoesCritical'", result);
+        TestVisitor(new StringCtlFormulaVisitor(), Safety, "AG !'ReactorGoesCritical'");
     }
 
     [Fact]
     public void PersistenceWorks()
     {
-        // Arrange
-        var formula = CtlFormula.Unary
-        (
-            UnaryOperator.AG,
-            CtlFormula.Binary
-            (
-                BinaryOperator.Implies,
-                CtlFormula.Atomic("BossIsDead"),
-                CtlFormula.Unary
-                (
-                    UnaryOperator.AG,
-                    CtlFormula.Atomic("BossIsDead")
-                )
-            )
-        );
-        var visitor = new StringCtlFormulaVisitor();
-
-        // Act
-        var result = visitor.Visit(formula);
-
-        // Assert
-        Assert.Equal("AG ('BossIsDead' -> AG 'BossIsDead')", result);
+        TestVisitor(new StringCtlFormulaVisitor(), Persistence, "AG ('BossIsDead' -> AG 'BossIsDead')");
     }
 
     [Fact]
     public void RecurrenceWorks()
     {
-        // Arrange
-        var formula = CtlFormula.Unary
-        (
-            UnaryOperator.AG,
-            CtlFormula.Unary
-            (
-                UnaryOperator.AF,
-                CtlFormula.Atomic("GoodThing")
-            )
-        );
-        var visitor = new StringCtlFormulaVisitor();
-
-        // Act
-        var result = visitor.Visit(formula);
-
-        // Assert
-        Assert.Equal("AG AF 'GoodThing'", result);
+        TestVisitor(new StringCtlFormulaVisitor(), Recurrence, "AG AF 'GoodThing'");
     }
-    
+
     [Fact]
     public void ResponseWorks()
     {
-        // Arrange
-        var formula = CtlFormula.Unary
-        (
-            UnaryOperator.AG,
-            CtlFormula.Binary
-            (
-                BinaryOperator.Implies,
-                CtlFormula.Atomic("RequestSent"),
-                CtlFormula.Unary
-                (
-                    UnaryOperator.AF,
-                    CtlFormula.Atomic("ResponseReceived")
-                )
-            )
-        );
-        var visitor = new StringCtlFormulaVisitor();
-
-        // Act
-        var result = visitor.Visit(formula);
-
-        // Assert
-        Assert.Equal("AG ('RequestSent' -> AF 'ResponseReceived')", result);
+        TestVisitor(new StringCtlFormulaVisitor(), Response, "AG ('RequestSent' -> AF 'ResponseReceived')");
     }
 }
