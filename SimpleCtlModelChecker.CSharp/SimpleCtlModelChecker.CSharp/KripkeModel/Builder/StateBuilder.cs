@@ -4,8 +4,9 @@ namespace SimpleCtlModelChecker.CSharp.KripkeModel.Builder;
 
 public class StateBuilder
 {
-    private readonly string _name;
     private readonly KripkeModelBuilder _modelBuilder;
+    private readonly string _name;
+    private bool _isInitial;
     private readonly HashSet<string> _atoms = [];
     private readonly HashSet<string> _transitions = [];
 
@@ -29,9 +30,10 @@ public class StateBuilder
         }
 
         _atoms.Add(name);
+
         return this;
     }
-    
+
     internal StateBuilder HasTransition(string name)
     {
         if (!_modelBuilder.States.Contains(name))
@@ -46,6 +48,14 @@ public class StateBuilder
         }
 
         _transitions.Add(name);
+
+        return this;
+    }
+
+    internal StateBuilder IsInitial()
+    {
+        _isInitial = true;
+
         return this;
     }
 
@@ -53,6 +63,7 @@ public class StateBuilder
     {
         var atoms = _atoms.ToImmutableHashSet();
         var transitions = _transitions.ToImmutableHashSet();
-        return new State(_name, atoms, transitions);
+
+        return new State(_name, atoms, transitions, _isInitial);
     }
 }

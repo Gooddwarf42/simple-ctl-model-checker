@@ -6,6 +6,6 @@ public sealed class State(string name, ImmutableHashSet<string> atoms, Immutable
 {
     public string Name { get; } = name;
     public bool IsInitial { get; } = isInitial;
-    public IEnumerable<string> Atoms => atoms.AsEnumerable();
-    public IEnumerable<string> Transitions => transitions.AsEnumerable();
+    public IReadOnlySet<string> Atoms => atoms;
+    public IReadOnlySet<string> Transitions => transitions;
 }
