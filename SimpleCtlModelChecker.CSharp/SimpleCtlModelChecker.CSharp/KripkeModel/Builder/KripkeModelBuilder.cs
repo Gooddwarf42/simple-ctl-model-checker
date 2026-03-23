@@ -1,11 +1,14 @@
 using System.Collections.Immutable;
 
-namespace SimpleCtlModelChecker.CSharp.KripkeModel;
+namespace SimpleCtlModelChecker.CSharp.KripkeModel.Builder;
 
 public sealed class KripkeModelBuilder
 {
     private readonly HashSet<string> _atoms = [];
     private readonly Dictionary<string, StateBuilder> _states = [];
+
+    internal IReadOnlySet<string> Atoms => _atoms;
+    internal IReadOnlyCollection<string> States => _states.Keys;
 
     public StateBuilder State(string name) => _states.TryGetValue(name, out var stateBuilder)
         ? stateBuilder
@@ -18,7 +21,7 @@ public sealed class KripkeModelBuilder
             throw new Exception($"State {name} already present in the {nameof(KripkeModelBuilder)}");
         }
 
-        var stateBuilder = new StateBuilder(name);
+        var stateBuilder = new StateBuilder(name, this);
         _states.Add(name, stateBuilder);
         return stateBuilder;
     }
@@ -42,22 +45,5 @@ public sealed class KripkeModelBuilder
         var atoms = _atoms.ToImmutableHashSet();
         var states = _states.Values.Select(builder => builder.Build()).ToImmutableList();
         return new KripkeModel(atoms, states);
-    }
-
-    // TODO public nested classes are not great. Any way we can do better?
-    public class StateBuilder(string name)
-    {
-        public readonly string Name = name;
-        public readonly HashSet<string> Atoms = [];
-        public readonly HashSet<string> Transitions = [];
-
-        // TODO boh.
-
-        public State Build()
-        {
-            var atoms = Atoms.ToImmutableHashSet();
-            var transitions = Transitions.ToImmutableHashSet();
-            return new State(Name, atoms, transitions);
-        }
     }
 }
