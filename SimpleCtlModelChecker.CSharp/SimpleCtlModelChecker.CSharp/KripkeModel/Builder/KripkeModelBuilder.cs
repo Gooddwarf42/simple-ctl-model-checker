@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using SimpleCtlModelChecker.CSharp.Exceptions;
 using SimpleCtlModelChecker.CSharp.KripkeModel.Descriptors;
 
 namespace SimpleCtlModelChecker.CSharp.KripkeModel.Builder;
@@ -9,7 +10,7 @@ public sealed class KripkeModelBuilder
     private readonly Dictionary<string, StateBuilder> _states = [];
     internal IReadOnlySet<string> Atoms => _atoms;
     internal IReadOnlyCollection<string> States => _states.Keys;
-    
+
     public KripkeModelBuilder() { }
 
     public KripkeModelBuilder(KripkeModelDescriptor descriptor)
@@ -44,13 +45,13 @@ public sealed class KripkeModelBuilder
 
     public StateBuilder State(string name) => _states.TryGetValue(name, out var stateBuilder)
         ? stateBuilder
-        : throw new Exception($"State {name} not found in the {nameof(KripkeModelBuilder)}");
+        : throw new CtlModelCheckerException($"State {name} not found in the {nameof(KripkeModelBuilder)}");
 
     public StateBuilder HasState(string name)
     {
         if (_states.ContainsKey(name))
         {
-            throw new Exception($"State {name} already present in the {nameof(KripkeModelBuilder)}");
+            throw new CtlModelCheckerException($"State {name} already present in the {nameof(KripkeModelBuilder)}");
         }
 
         var stateBuilder = new StateBuilder(name, this);
@@ -64,7 +65,7 @@ public sealed class KripkeModelBuilder
         // ReSharper disable once CanSimplifySetAddingWithSingleCall
         if (_atoms.Contains(name))
         {
-            throw new Exception($"Atom {name} already present in the {nameof(KripkeModelBuilder)}");
+            throw new CtlModelCheckerException($"Atom {name} already present in the {nameof(KripkeModelBuilder)}");
         }
 
         _atoms.Add(name);
@@ -74,12 +75,18 @@ public sealed class KripkeModelBuilder
 
     public KripkeModel BuildModel()
     {
-        // TODO validate (anche se in teoria i metodi che fanno buildare dovrebbero essere
-        // abbastanza validevoli di loro)
-        // Qualcosa bisogna comunque validare, tipo che tutti gli stati abbiano almeno una transazione...
+        Validate();
         var atoms = _atoms.ToImmutableHashSet();
         var states = _states.Values.Select(builder => builder.Build()).ToImmutableList();
 
         return new KripkeModel(atoms, states);
+    }
+
+    internal void Validate()
+    {
+        foreach (var stateBuilder in _states.Values)
+        {
+            stateBuilder.Validate();
+        }
     }
 }

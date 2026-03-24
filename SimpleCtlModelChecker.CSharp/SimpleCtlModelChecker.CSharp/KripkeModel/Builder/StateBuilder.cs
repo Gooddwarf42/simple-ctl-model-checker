@@ -1,4 +1,6 @@
 using System.Collections.Immutable;
+using SimpleCtlModelChecker.CSharp.Exceptions;
+using SimpleCtlModelChecker.CSharp.Extensions;
 
 namespace SimpleCtlModelChecker.CSharp.KripkeModel.Builder;
 
@@ -20,13 +22,13 @@ public class StateBuilder
     {
         if (!_modelBuilder.Atoms.Contains(name))
         {
-            throw new Exception($"Atom {name} is not a valid atom for the {nameof(KripkeModelBuilder)}");
+            throw new CtlModelCheckerException($"Atom {name} is not a valid atom for the {nameof(KripkeModelBuilder)}");
         }
 
         // ReSharper disable once CanSimplifySetAddingWithSingleCall
         if (_atoms.Contains(name))
         {
-            throw new Exception($"Atom {name} already present in the {nameof(StateBuilder)} for state {_name}");
+            throw new CtlModelCheckerException($"Atom {name} already present in the {nameof(StateBuilder)} for state {_name}");
         }
 
         _atoms.Add(name);
@@ -38,13 +40,13 @@ public class StateBuilder
     {
         if (!_modelBuilder.States.Contains(name))
         {
-            throw new Exception($"State {name} is not a valid state for the {nameof(KripkeModelBuilder)}");
+            throw new CtlModelCheckerException($"State {name} is not a valid state for the {nameof(KripkeModelBuilder)}");
         }
 
         // ReSharper disable once CanSimplifySetAddingWithSingleCall
         if (_transitions.Contains(name))
         {
-            throw new Exception($"Transition to state {name} already present in the {nameof(StateBuilder)} for state {_name}");
+            throw new CtlModelCheckerException($"Transition to state {name} already present in the {nameof(StateBuilder)} for state {_name}");
         }
 
         _transitions.Add(name);
@@ -65,5 +67,27 @@ public class StateBuilder
         var transitions = _transitions.ToImmutableHashSet();
 
         return new State(_name, atoms, transitions, _isInitial);
+    }
+    
+    internal void Validate()
+    {
+        if (_transitions.Count == 0)
+        {
+            throw new CtlModelCheckerException($"{nameof(StateBuilder)}.{nameof(Validate)}: State {_name} doesn't have any transition");
+        }
+
+        var invalidAtoms = _atoms.SetDifference(_modelBuilder.Atoms);
+
+        if (invalidAtoms.Count > 0)
+        {
+            throw new CtlModelCheckerException($"{nameof(StateBuilder)}.{nameof(Validate)}: State {_name} contains invalid atoms: [{string.Join(", ", invalidAtoms)}]");
+        }
+
+        var invalidStatesInTransitions = _transitions.SetDifference(_modelBuilder.States);
+
+        if (invalidStatesInTransitions.Count > 0)
+        {
+            throw new CtlModelCheckerException($"{nameof(StateBuilder)}.{nameof(Validate)}: State {_name} contains invalid transitions to the following nonexisting states: [{string.Join(", ", invalidStatesInTransitions)}]");
+        }
     }
 }
