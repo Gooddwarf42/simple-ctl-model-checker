@@ -18,7 +18,7 @@ public class StateBuilder
         _modelBuilder = modelBuilder;
     }
 
-    internal StateBuilder HasAtom(string name)
+    internal StateBuilder WithAtom(string name)
     {
         if (!_modelBuilder.Atoms.Contains(name))
         {
@@ -36,7 +36,7 @@ public class StateBuilder
         return this;
     }
 
-    internal StateBuilder HasTransition(string name)
+    internal StateBuilder WithTransition(string name)
     {
         if (!_modelBuilder.States.Contains(name))
         {

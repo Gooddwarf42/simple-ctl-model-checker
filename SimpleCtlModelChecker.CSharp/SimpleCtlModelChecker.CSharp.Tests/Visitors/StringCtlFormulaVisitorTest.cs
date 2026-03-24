@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SimpleCtlModelChecker.CSharp.Formulae;
 using SimpleCtlModelChecker.CSharp.Visitors;
@@ -55,7 +56,6 @@ public class StringCtlFormulaVisitorTest : BaseVisitorTest
         // Assert
         Assert.Equal(expected, result);
     }
-
 
     [Theory]
     [InlineData(BinaryOperator.And, "p", "q", "('p' /\\ 'q')")]

@@ -12,6 +12,11 @@ public sealed class StateDescriptor
 
     public void Validate(IReadOnlySet<string> modelAtoms, IReadOnlySet<string> modelStates)
     {
+        if (!modelStates.Contains(Name))
+        {
+            throw new CtlModelCheckerException($"{nameof(StateDescriptor)}.{nameof(Validate)}: State {Name} not present in the set of states provided");
+        }
+
         if (Transitions.Count == 0)
         {
             throw new CtlModelCheckerException($"{nameof(StateDescriptor)}.{nameof(Validate)}: State {Name} doesn't have any transition");

@@ -36,22 +36,27 @@ public sealed class KripkeModelBuilder
                 stateBuilder.SetInitial();
             }
 
+            foreach (var stateAtom in state.Atoms)
+            {
+                stateBuilder.WithAtom(stateAtom);
+            }
+
             foreach (var transitionState in state.Transitions)
             {
-                stateBuilder.HasTransition(transitionState);
+                stateBuilder.WithTransition(transitionState);
             }
         }
     }
 
     public StateBuilder State(string name) => _states.TryGetValue(name, out var stateBuilder)
         ? stateBuilder
-        : throw new CtlModelCheckerException($"State {name} not found in the {nameof(KripkeModelBuilder)}");
+        : throw new CtlModelCheckerException($"{nameof(KripkeModelBuilder)}.{nameof(State)}: State {name} not found in the {nameof(KripkeModelBuilder)}");
 
     public StateBuilder HasState(string name)
     {
         if (_states.ContainsKey(name))
         {
-            throw new CtlModelCheckerException($"State {name} already present in the {nameof(KripkeModelBuilder)}");
+            throw new CtlModelCheckerException($"{nameof(KripkeModelBuilder)}.{nameof(HasState)}: State {name} already present in the {nameof(KripkeModelBuilder)}");
         }
 
         var stateBuilder = new StateBuilder(name, this);
@@ -65,7 +70,7 @@ public sealed class KripkeModelBuilder
         // ReSharper disable once CanSimplifySetAddingWithSingleCall
         if (_atoms.Contains(name))
         {
-            throw new CtlModelCheckerException($"Atom {name} already present in the {nameof(KripkeModelBuilder)}");
+            throw new CtlModelCheckerException($"{nameof(KripkeModelBuilder)}.{nameof(HasAtom)}: Atom {name} already present in the {nameof(KripkeModelBuilder)}");
         }
 
         _atoms.Add(name);
