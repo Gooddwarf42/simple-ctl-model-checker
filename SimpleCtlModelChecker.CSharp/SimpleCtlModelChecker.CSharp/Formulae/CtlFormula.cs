@@ -11,6 +11,7 @@ public abstract class CtlFormula
 
     /// <summary>
     /// Bad things can never happen.
+    /// <br/>
     /// AG(!badThing)
     /// </summary>
     /// <param name="badThing"></param>
@@ -19,6 +20,7 @@ public abstract class CtlFormula
 
     /// <summary>
     /// If something happens, it will always stay that way
+    /// <br/>
     /// AG(stableThing -> AG stableThing)
     /// </summary>
     /// <param name="stableThing"></param>
@@ -27,6 +29,7 @@ public abstract class CtlFormula
 
     /// <summary>
     /// Something happens infinitely often
+    /// <br/>
     /// AGAF(recurringThing)
     /// </summary>
     /// <param name="recurringThing"></param>
@@ -36,6 +39,7 @@ public abstract class CtlFormula
     /// <summary>
     /// Whenever something happens, something else
     /// will eventually happen in response
+    /// <br/>
     /// AG(trigger -> AF(consequence))
     /// </summary>
     /// <param name="trigger"></param>

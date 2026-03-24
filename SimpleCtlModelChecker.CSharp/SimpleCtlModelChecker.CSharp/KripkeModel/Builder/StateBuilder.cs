@@ -8,9 +8,9 @@ public class StateBuilder
 {
     private readonly KripkeModelBuilder _modelBuilder;
     private readonly string _name;
-    private bool _isInitial;
     private readonly HashSet<string> _atoms = [];
     private readonly HashSet<string> _transitions = [];
+    public bool IsInitial { get; private set; }
 
     internal StateBuilder(string name, KripkeModelBuilder modelBuilder)
     {
@@ -54,9 +54,9 @@ public class StateBuilder
         return this;
     }
 
-    internal StateBuilder IsInitial()
+    internal StateBuilder SetInitial()
     {
-        _isInitial = true;
+        IsInitial = true;
 
         return this;
     }
@@ -66,9 +66,9 @@ public class StateBuilder
         var atoms = _atoms.ToImmutableHashSet();
         var transitions = _transitions.ToImmutableHashSet();
 
-        return new State(_name, atoms, transitions, _isInitial);
+        return new State(_name, atoms, transitions, IsInitial);
     }
-    
+
     internal void Validate()
     {
         if (_transitions.Count == 0)

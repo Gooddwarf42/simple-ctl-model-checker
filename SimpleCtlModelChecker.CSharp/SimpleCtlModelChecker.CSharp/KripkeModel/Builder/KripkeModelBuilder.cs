@@ -33,7 +33,7 @@ public sealed class KripkeModelBuilder
 
             if (state.IsInitial)
             {
-                stateBuilder.IsInitial();
+                stateBuilder.SetInitial();
             }
 
             foreach (var transitionState in state.Transitions)
@@ -84,6 +84,13 @@ public sealed class KripkeModelBuilder
 
     internal void Validate()
     {
+        var hasInitialState = _states.Values.Any(s => s.IsInitial);
+
+        if (!hasInitialState)
+        {
+            throw new CtlModelCheckerException($"{nameof(KripkeModelBuilder)}.{nameof(Validate)}: at least one initial state should be specified");
+        }
+
         foreach (var stateBuilder in _states.Values)
         {
             stateBuilder.Validate();

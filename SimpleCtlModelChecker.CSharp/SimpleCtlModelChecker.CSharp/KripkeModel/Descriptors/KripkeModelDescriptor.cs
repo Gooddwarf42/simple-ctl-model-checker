@@ -24,8 +24,15 @@ public sealed class KripkeModelDescriptor
                 .GroupBy(s => s.Name)
                 .Where(g => g.Count() > 1)
                 .Select(g => g.Key);
-            
-            throw new CtlModelCheckerException($"States with duplicate name: [{string.Join(", ", statesWithDuplicateName)}]");
+
+            throw new CtlModelCheckerException($"{nameof(KripkeModelDescriptor)}.{nameof(Validate)}: States with duplicate name: [{string.Join(", ", statesWithDuplicateName)}]");
+        }
+
+        var hasInitialState = States.Any(s => s.IsInitial);
+
+        if (!hasInitialState)
+        {
+            throw new CtlModelCheckerException($"{nameof(KripkeModelDescriptor)}.{nameof(Validate)}: at least one initial state should be specified");
         }
 
         foreach (var state in States)

@@ -6,4 +6,5 @@ public sealed class KripkeModel(ImmutableHashSet<string> atoms, ImmutableList<St
 {
     public IReadOnlySet<string> Atoms => atoms;
     public IReadOnlyList<State> States => states;
+    public IEnumerable<State> InitialStates => states.Where(s => s.IsInitial);
 }
