@@ -3,7 +3,7 @@ using SimpleCtlModelChecker.CSharp.Exceptions;
 using SimpleCtlModelChecker.CSharp.Model.Descriptors;
 using Xunit;
 
-namespace SimpleCtlModelChecker.CSharp.Tests.KripkeModel.Descriptors;
+namespace SimpleCtlModelChecker.CSharp.Tests.Model.Descriptors;
 
 [TestSubject(typeof(KripkeModelDescriptor))]
 public class KripkeModelDescriptorTest
