@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 
-namespace SimpleCtlModelChecker.CSharp.KripkeModel;
+namespace SimpleCtlModelChecker.CSharp.Model;
 
 public sealed class KripkeModel(ImmutableHashSet<string> atoms, ImmutableList<State> states)
 {

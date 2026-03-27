@@ -110,3 +110,32 @@ var model = builder.BuildModel(); // at this point, no modification to model sho
 //   \/
 // State02 (p)  (with a self loop)
 ```
+
+## About model checking
+Basically I want to improve a simple version of the labeling algorithm.As detailed in many resources online 
+(such as [this](https://www.diag.uniroma1.it/degiacom/didattica/metodiformali/aa2008-09/materiale/6-modelchecking/slide5extended-4up.pdf) 
+or [this](https://disi.unitn.it/rseba/DIDATTICA/fm2024/SLIDES/05-CTL-explicitstate_handouts.pdf)),
+the idea is to compute *denotations* for CTL formulae, that is the sets of states in which they hold. We do that bottom up by induction on the syntax. 
+
+That basically splits in three cases:
+- for atoms, just see if that atom is in the state or not
+- for X operators, compute pre-images
+- For all other temporal operators, it is a fixpoint computation based on "tableaux rules" (see [here at slide 72](https://disi.unitn.it/rseba/DIDATTICA/fm2024/SLIDES/03-temporalLogics_slides.pdf)).
+I'll think whether it's minimum or maximum fixpoint in each case when the time comes.
+
+here are the tableaux rules. 
+> After all... tomorrow is another day
+```
+AF(p) <-> p \/ AXAFp
+EF(p) <-> p \/ EXEFp
+
+AG(p) <-> p /\ AXAGp
+EG(p) <-> p /\ EXEGp
+
+A[pUq] <-> q \/ (p /\ AXA[pUq])
+E[pUq] <-> q \/ (p /\ EXA[pUq])
+```
+
+Besides implementing minimum fixpoint (for `F` and `U`) and maximum fixpoint (for `G`) operators,
+as well as preimage, this should all be easily accomplisheable by a simple visitor, at least in the C#
+version of it

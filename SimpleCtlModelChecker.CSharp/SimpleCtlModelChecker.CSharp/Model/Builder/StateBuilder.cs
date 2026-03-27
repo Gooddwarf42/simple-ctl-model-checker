@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using SimpleCtlModelChecker.CSharp.Exceptions;
 using SimpleCtlModelChecker.CSharp.Extensions;
 
-namespace SimpleCtlModelChecker.CSharp.KripkeModel.Builder;
+namespace SimpleCtlModelChecker.CSharp.Model.Builder;
 
 public class StateBuilder
 {

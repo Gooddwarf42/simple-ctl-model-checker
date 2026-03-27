@@ -1,7 +1,7 @@
 using SimpleCtlModelChecker.CSharp.Exceptions;
 using SimpleCtlModelChecker.CSharp.Extensions;
 
-namespace SimpleCtlModelChecker.CSharp.KripkeModel.Descriptors;
+namespace SimpleCtlModelChecker.CSharp.Model.Descriptors;
 
 public sealed class StateDescriptor
 {

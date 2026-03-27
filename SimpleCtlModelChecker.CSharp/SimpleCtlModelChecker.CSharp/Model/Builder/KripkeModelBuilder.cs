@@ -1,8 +1,8 @@
 using System.Collections.Immutable;
 using SimpleCtlModelChecker.CSharp.Exceptions;
-using SimpleCtlModelChecker.CSharp.KripkeModel.Descriptors;
+using SimpleCtlModelChecker.CSharp.Model.Descriptors;
 
-namespace SimpleCtlModelChecker.CSharp.KripkeModel.Builder;
+namespace SimpleCtlModelChecker.CSharp.Model.Builder;
 
 public sealed class KripkeModelBuilder
 {

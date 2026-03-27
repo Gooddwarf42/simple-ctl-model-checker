@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using SimpleCtlModelChecker.CSharp.Exceptions;
-using SimpleCtlModelChecker.CSharp.KripkeModel.Descriptors;
+using SimpleCtlModelChecker.CSharp.Model.Descriptors;
 using Xunit;
 
 namespace SimpleCtlModelChecker.CSharp.Tests.KripkeModel.Descriptors;
