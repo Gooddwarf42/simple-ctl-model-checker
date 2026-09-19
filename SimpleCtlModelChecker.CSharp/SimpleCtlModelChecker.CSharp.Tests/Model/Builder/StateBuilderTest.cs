@@ -1,9 +1,9 @@
 using JetBrains.Annotations;
 using SimpleCtlModelChecker.CSharp.Exceptions;
-using SimpleCtlModelChecker.CSharp.KripkeModel.Builder;
+using SimpleCtlModelChecker.CSharp.Model.Builder;
 using Xunit;
 
-namespace SimpleCtlModelChecker.CSharp.Tests.KripkeModel.Builder;
+namespace SimpleCtlModelChecker.CSharp.Tests.Model.Builder;
 
 [TestSubject(typeof(StateBuilder))]
 public class StateBuilderTest

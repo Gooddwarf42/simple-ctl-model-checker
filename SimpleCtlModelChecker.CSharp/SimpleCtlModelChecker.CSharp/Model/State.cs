@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 
-namespace SimpleCtlModelChecker.CSharp.KripkeModel;
+namespace SimpleCtlModelChecker.CSharp.Model;
 
 public sealed class State(string name, ImmutableHashSet<string> atoms, ImmutableHashSet<string> transitions, bool isInitial = false)
 {

@@ -1,12 +1,12 @@
 using FluentAssertions;
 using JetBrains.Annotations;
 using SimpleCtlModelChecker.CSharp.Exceptions;
-using SimpleCtlModelChecker.CSharp.KripkeModel;
-using SimpleCtlModelChecker.CSharp.KripkeModel.Builder;
-using SimpleCtlModelChecker.CSharp.KripkeModel.Descriptors;
+using SimpleCtlModelChecker.CSharp.Model;
+using SimpleCtlModelChecker.CSharp.Model.Builder;
+using SimpleCtlModelChecker.CSharp.Model.Descriptors;
 using Xunit;
 
-namespace SimpleCtlModelChecker.CSharp.Tests.KripkeModel.Builder;
+namespace SimpleCtlModelChecker.CSharp.Tests.Model.Builder;
 
 [TestSubject(typeof(KripkeModelBuilder))]
 public class KripkeModelBuilderTest

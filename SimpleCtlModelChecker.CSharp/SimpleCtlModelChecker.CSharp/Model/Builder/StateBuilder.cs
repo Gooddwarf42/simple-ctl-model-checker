@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using SimpleCtlModelChecker.CSharp.Exceptions;
 using SimpleCtlModelChecker.CSharp.Extensions;
 
-namespace SimpleCtlModelChecker.CSharp.KripkeModel.Builder;
+namespace SimpleCtlModelChecker.CSharp.Model.Builder;
 
 public class StateBuilder
 {
@@ -10,7 +10,7 @@ public class StateBuilder
     private readonly string _name;
     private readonly HashSet<string> _atoms = [];
     private readonly HashSet<string> _transitions = [];
-    public bool IsInitial { get; private set; }
+    internal bool IsInitial { get; private set; }
 
     internal StateBuilder(string name, KripkeModelBuilder modelBuilder)
     {

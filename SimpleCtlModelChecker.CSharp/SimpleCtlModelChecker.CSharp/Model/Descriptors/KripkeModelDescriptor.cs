@@ -1,7 +1,6 @@
 using SimpleCtlModelChecker.CSharp.Exceptions;
-using SimpleCtlModelChecker.CSharp.Extensions;
 
-namespace SimpleCtlModelChecker.CSharp.KripkeModel.Descriptors;
+namespace SimpleCtlModelChecker.CSharp.Model.Descriptors;
 
 /// <summary>
 /// This class is used for serialization and deserialization
